@@ -1,12 +1,15 @@
 /**
  * API client — all backend communication goes through here.
- * Vite proxies /plan, /route, /prompt, /memory → http://localhost:8000
+ * In dev: Vite proxies /plan, /route etc → http://127.0.0.1:8000
+ * In prod: set VITE_API_URL env var in Vercel to your backend URL
  */
 import axios from 'axios'
 
+const BASE_URL = import.meta.env.VITE_API_URL ?? ''
+
 // ─── Axios instance ────────────────────────────────────────────────────────
 const api = axios.create({
-  baseURL: '',
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 20000,
 })
@@ -119,14 +122,12 @@ export const getFeedbackStats = () =>
   api.get('/feedback/stats').then((r) => r.data)
 
 // ─── /health ───────────────────────────────────────────────────────────────
-// Call backend directly (not through Vite proxy) so it works even if
-// the proxy hasn't picked up the /health route yet.
+// Call backend directly — bypasses Vite proxy, works in both dev and prod
 /** @returns {{ status: 'ok' } | null} */
 export const checkHealth = async () => {
+  const url = (import.meta.env.VITE_API_URL ?? 'http://localhost:8000') + '/health'
   try {
-    const res = await fetch('http://localhost:8000/health', {
-      signal: AbortSignal.timeout(3000),
-    })
+    const res = await fetch(url, { signal: AbortSignal.timeout(3000) })
     if (!res.ok) return null
     return await res.json()
   } catch {
