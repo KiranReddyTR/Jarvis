@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { height: 100%; }
+
+  body {
+    @apply bg-[#0a0a0f] text-gray-100 font-sans antialiased;
+    height: 100%;
+  }
+
+  #root { height: 100%; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-white/10 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-white/20; }
+
+  * { box-sizing: border-box; }
+}
+
+@layer components {
+  /* Glass card */
+  .glass {
+    @apply bg-white/[0.03] border border-white/[0.07] rounded-2xl backdrop-blur-sm;
+  }
+
+  .glass-hover {
+    @apply hover:bg-white/[0.05] hover:border-white/[0.12] transition-all duration-200;
+  }
+
+  /* Sidebar nav item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+           text-gray-500 hover:text-gray-200 hover:bg-white/[0.05]
+           transition-all duration-150 cursor-pointer select-none;
+  }
+
+  .nav-item-active {
+    @apply text-white bg-white/[0.08] border border-white/[0.1];
+  }
+
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
+           bg-indigo-600 hover:bg-indigo-500 text-white
+           transition-all duration-200 active:scale-[0.97]
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+           text-gray-500 hover:text-gray-200 hover:bg-white/[0.06]
+           transition-all duration-150 active:scale-[0.97]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20;
+  }
+
+  .btn-icon {
+    @apply w-8 h-8 flex items-center justify-center rounded-lg
+           text-gray-500 hover:text-gray-200 hover:bg-white/[0.06]
+           transition-all duration-150 active:scale-[0.95]
+           focus-visible:outline-none;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium;
+  }
+
+  /* Section label */
+  .label {
+    @apply text-[10px] font-semibold uppercase tracking-widest text-gray-600;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    @apply bg-white/[0.05] rounded-lg animate-pulse;
+  }
+
+  /* Glow dot */
+  .status-dot {
+    @apply w-1.5 h-1.5 rounded-full;
+  }
+}
+
+/* Fade-in animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 0.3s ease forwards;
+}
+
+/* Stagger children */
+.stagger > * { opacity: 0; animation: fadeUp 0.3s ease forwards; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(6) { animation-delay: 300ms; }
+.stagger > *:nth-child(7) { animation-delay: 360ms; }
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+}
+
+/* Subtle grid background */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
